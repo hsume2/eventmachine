@@ -3,7 +3,7 @@
 # Author:: Francis Cianfrocca (gmail: blackhedd)
 # Homepage::  http://rubyeventmachine.com
 # Date:: 16 July 2006
-# 
+#
 # See EventMachine and EventMachine::Connection for documentation and
 # usage examples.
 #
@@ -11,17 +11,17 @@
 #
 # Copyright (C) 2006-07 by Francis Cianfrocca. All Rights Reserved.
 # Gmail: blackhedd
-# 
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of either: 1) the GNU General Public License
 # as published by the Free Software Foundation; either version 2 of the
 # License, or (at your option) any later version; or 2) Ruby's License.
-# 
+#
 # See the file COPYING for complete licensing information.
 #
 #---------------------------------------------------------------------------
 #
-# 
+#
 
 module EventMachine
   module Protocols
@@ -40,7 +40,7 @@ module EventMachine
     #  }
     class HttpClient2 < Connection
       include LineText2
-      
+
       def initialize
         @authorization = nil
         @closed = nil
@@ -114,6 +114,7 @@ module EventMachine
             else
               @blanks += 1
               if @blanks > 10
+                p '@conn.close_connection 1'
                 @conn.close_connection
               end
             end
@@ -121,6 +122,7 @@ module EventMachine
             @header_lines << ln
             if @header_lines.length > 100
               @internal_error = :bad_header
+              p '@conn.close_connection 2'
               @conn.close_connection
             end
           end
@@ -167,6 +169,7 @@ module EventMachine
 
         def process_header
           unless @header_lines.first =~ HttpResponseRE
+            p '@conn.close_connection 3'
             @conn.close_connection
             @internal_error = :bad_request
           end
@@ -210,6 +213,7 @@ module EventMachine
             p @args[:uri]
             p @header_lines
             @internal_error = :unsupported_clen
+            p '@conn.close_connection 4'
             @conn.close_connection
           end
         end
