@@ -1202,14 +1202,14 @@ void ConnectionDescriptor::Heartbeat()
 
 	if (bConnectPending) {
 		if ((gCurrentLoopTime - CreatedAt) >= PendingConnectTimeout) {
-			printf("[ScheduleClose] ConnectionDescriptor::Heartbeat");
+			printf("[ScheduleClose] ConnectionDescriptor::Heartbeat\n");
 			ScheduleClose (false);
 		}
 			//bCloseNow = true;
 	}
 	else {
 		if (InactivityTimeout && ((gCurrentLoopTime - LastIo) >= InactivityTimeout)) {
-			printf("[ScheduleClose] ConnectionDescriptor::Heartbeat2");
+			printf("[ScheduleClose] ConnectionDescriptor::Heartbeat2\n");
 			ScheduleClose (false);
 		}
 			//bCloseNow = true;
