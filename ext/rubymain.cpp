@@ -147,6 +147,7 @@ static void event_callback (struct em_event* e)
 	else {
 		if(INT2NUM(a2) == INT2NUM(102)) {
 			printf("[hhsu]\n");
+			rb_raise (EM_eConnectionNotBound, "tell me more: %lu", a1);
 		}
 		rb_funcall (EmModule, Intern_event_callback, 3, ULONG2NUM(a1), INT2FIX(a2), a3 ? rb_str_new(a3,a4) : ULONG2NUM(a4));
 	}
