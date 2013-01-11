@@ -361,6 +361,7 @@ evma_close_connection
 extern "C" void evma_close_connection (const unsigned long binding, int after_writing)
 {
 	ensure_eventmachine("evma_close_connection");
+	printf("[CloseConnection] evma_close_connection\n");
 	ConnectionDescriptor::CloseConnection (binding, (after_writing ? true : false));
 }
 
