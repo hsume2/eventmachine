@@ -104,7 +104,7 @@ EventableDescriptor::~EventableDescriptor
 EventableDescriptor::~EventableDescriptor()
 {
 	if (EventCallback && bCallbackUnbind) {
-		printf("AAA\n");
+		printf("AAA: %i\n", EM_CONNECTION_UNBOUND);
 		(*EventCallback)(GetBinding(), EM_CONNECTION_UNBOUND, NULL, UnbindReasonCode);
 	}
 	if (ProxiedFrom) {
