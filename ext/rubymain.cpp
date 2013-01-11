@@ -67,6 +67,7 @@ t_event_callback
 
 static void event_callback (struct em_event* e)
 {
+	printf("[hhsu]\n");
 	const unsigned long a1 = e->a1;
 	int a2 = e->a2;
 	const char *a3 = e->a3;
