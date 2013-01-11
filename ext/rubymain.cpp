@@ -75,22 +75,28 @@ static void event_callback (struct em_event* e)
 	if (a2 == EM_CONNECTION_READ) {
 		VALUE t = rb_ivar_get (EmModule, Intern_at_conns);
 		VALUE q = rb_hash_aref (t, ULONG2NUM (a1));
-		if (q == Qnil)
+		if (q == Qnil) {
+			printf("[EM_eConnectionNotBound] A\n");
 			rb_raise (EM_eConnectionNotBound, "received %lu bytes of data for unknown signature: %lu", a4, a1);
+		}
 		rb_funcall (q, Intern_receive_data, 1, rb_str_new (a3, a4));
 	}
 	else if (a2 == EM_CONNECTION_NOTIFY_READABLE) {
 		VALUE t = rb_ivar_get (EmModule, Intern_at_conns);
 		VALUE q = rb_hash_aref (t, ULONG2NUM (a1));
-		if (q == Qnil)
+		if (q == Qnil) {
+			printf("[EM_eConnectionNotBound] B\n");
 			rb_raise (EM_eConnectionNotBound, "unknown connection: %lu", a1);
+		}
 		rb_funcall (q, Intern_notify_readable, 0);
 	}
 	else if (a2 == EM_CONNECTION_NOTIFY_WRITABLE) {
 		VALUE t = rb_ivar_get (EmModule, Intern_at_conns);
 		VALUE q = rb_hash_aref (t, ULONG2NUM (a1));
-		if (q == Qnil)
+		if (q == Qnil) {
+			printf("[EM_eConnectionNotBound] C\n");
 			rb_raise (EM_eConnectionNotBound, "unknown connection: %lu", a1);
+		}
 		rb_funcall (q, Intern_notify_writable, 0);
 	}
 	else if (a2 == EM_LOOPBREAK_SIGNAL) {
@@ -111,15 +117,19 @@ static void event_callback (struct em_event* e)
 	else if (a2 == EM_SSL_HANDSHAKE_COMPLETED) {
 		VALUE t = rb_ivar_get (EmModule, Intern_at_conns);
 		VALUE q = rb_hash_aref (t, ULONG2NUM (a1));
-		if (q == Qnil)
+		if (q == Qnil) {
+			printf("[EM_eConnectionNotBound] D\n");
 			rb_raise (EM_eConnectionNotBound, "unknown connection: %lu", a1);
+		}
 		rb_funcall (q, Intern_ssl_handshake_completed, 0);
 	}
 	else if (a2 == EM_SSL_VERIFY) {
 		VALUE t = rb_ivar_get (EmModule, Intern_at_conns);
 		VALUE q = rb_hash_aref (t, ULONG2NUM (a1));
-		if (q == Qnil)
+		if (q == Qnil) {
+			printf("[EM_eConnectionNotBound] E\n");
 			rb_raise (EM_eConnectionNotBound, "unknown connection: %lu", a1);
+		}
 		VALUE r = rb_funcall (q, Intern_ssl_verify_peer, 1, rb_str_new(a3, a4));
 		if (RTEST(r))
 			evma_accept_ssl_peer (a1);
@@ -128,8 +138,10 @@ static void event_callback (struct em_event* e)
 	else if (a2 == EM_PROXY_TARGET_UNBOUND) {
 		VALUE t = rb_ivar_get (EmModule, Intern_at_conns);
 		VALUE q = rb_hash_aref (t, ULONG2NUM (a1));
-		if (q == Qnil)
+		if (q == Qnil) {
+			printf("[EM_eConnectionNotBound] F\n");
 			rb_raise (EM_eConnectionNotBound, "unknown connection: %lu", a1);
+		}
 		rb_funcall (q, Intern_proxy_target_unbound, 0);
 	}
 	else
