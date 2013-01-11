@@ -1773,7 +1773,7 @@ const unsigned long EventMachine_t::_OpenFileForWriting (const char *filename)
 		return NULL;
 
   int fd = open (filename, O_CREAT|O_TRUNC|O_WRONLY|O_NONBLOCK, 0644);
-  
+
 	FileStreamDescriptor *fsd = new FileStreamDescriptor (fd, this);
   if (!fsd)
   	throw std::runtime_error ("no file-stream allocated");
@@ -2049,8 +2049,10 @@ void EventMachine_t::UnwatchPid (int pid)
 	// t==-1 if the process already exited; ignore this for now
 	#endif
 
-	if (EventCallback)
+	if (EventCallback) {
+		printf("BBB\n");
 		(*EventCallback)(b->GetBinding(), EM_CONNECTION_UNBOUND, NULL, 0);
+	}
 
 	delete b;
 }
@@ -2144,8 +2146,10 @@ void EventMachine_t::UnwatchFile (int wd)
 	close(wd);
 	#endif
 
-	if (EventCallback)
+	if (EventCallback) {
+		printf("CCC\n");
 		(*EventCallback)(b->GetBinding(), EM_CONNECTION_UNBOUND, NULL, 0);
+	}
 
 	delete b;
 }

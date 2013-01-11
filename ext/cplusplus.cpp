@@ -187,6 +187,7 @@ void EM::Callback (const unsigned long sig, int ev, const char *data, const unsi
 			break;
 
 		case EM_CONNECTION_UNBOUND:
+			printf("DDD\n");
 			e = EM::Eventables [sig];
 			e->Unbind();
 			EM::Eventables.erase (sig);
