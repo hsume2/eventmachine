@@ -197,6 +197,7 @@ module EventMachine
     # be prepared to properly deal with such data (probably by ignoring it).
     #
     def close_connection_after_writing
+      p 'close_connection_after_writing'
       close_connection true
     end
 
@@ -470,7 +471,7 @@ module EventMachine
       EventMachine::set_comm_inactivity_timeout @signature, value.to_f
     end
 
-    # pending_connect_timeout is the duration after which a TCP connection in the connecting 
+    # pending_connect_timeout is the duration after which a TCP connection in the connecting
     # state will fail. It is important to distinguish this value from comm_inactivity_timeout,
     # which looks at how long since data was passed on an already established connection.
     # The value is a float in seconds.

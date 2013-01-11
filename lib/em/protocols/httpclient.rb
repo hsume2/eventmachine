@@ -3,7 +3,7 @@
 # Author:: Francis Cianfrocca (gmail: blackhedd)
 # Homepage::  http://rubyeventmachine.com
 # Date:: 16 July 2006
-# 
+#
 # See EventMachine and EventMachine::Connection for documentation and
 # usage examples.
 #
@@ -11,17 +11,17 @@
 #
 # Copyright (C) 2006-07 by Francis Cianfrocca. All Rights Reserved.
 # Gmail: blackhedd
-# 
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of either: 1) the GNU General Public License
 # as published by the Free Software Foundation; either version 2 of the
 # License, or (at your option) any later version; or 2) Ruby's License.
-# 
+#
 # See the file COPYING for complete licensing information.
 #
 #---------------------------------------------------------------------------
 #
-# 
+#
 
 
 
@@ -234,6 +234,7 @@ module EventMachine
           set_deferred_status :failed, {
             :status => 0 # crappy way of signifying an unrecognized response. TODO, find a better way to do this.
           }
+          p 'lib/em/protocols/httpclient.rb close_connection 1'
           close_connection
         end
       end
@@ -247,6 +248,7 @@ module EventMachine
           :status => @status
         }
         # TODO, we close the connection for now, but this is wrong for persistent clients.
+        p 'lib/em/protocols/httpclient.rb close_connection 2'
         close_connection
       end
 
