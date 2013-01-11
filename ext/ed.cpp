@@ -346,8 +346,10 @@ void ConnectionDescriptor::CloseConnection (const unsigned long binding, bool af
 {
 	// TODO: This is something of a hack, or at least it's a static method of the wrong class.
 	EventableDescriptor *ed = dynamic_cast <EventableDescriptor*> (Bindable_t::GetObject (binding));
-	if (ed)
+	if (ed) {
+		printf("ScheduleClose: %i\n", after_writing);
 		ed->ScheduleClose (after_writing);
+	}
 }
 
 /***********************************************
@@ -447,6 +449,7 @@ void ConnectionDescriptor::HandleError()
 		if (bNotifyReadable) Read();
 		if (bNotifyWritable) Write();
 	} else {
+		printf("[ScheduleClose] ConnectionDescriptor::HandleError\n");
 		ScheduleClose (false);
 	}
 }
@@ -509,8 +512,10 @@ int ConnectionDescriptor::SendOutboundData (const char *data, int length)
 	if (SslBox) {
 		if (length > 0) {
 			int w = SslBox->PutPlaintext (data, length);
-			if (w < 0)
+			if (w < 0) {
+				printf("[ScheduleClose]: ConnectionDescriptor::SendOutboundData\n");
 				ScheduleClose (false);
+			}
 			else
 				_DispatchCiphertext();
 		}
@@ -833,8 +838,10 @@ void ConnectionDescriptor::Write()
 			// from EventMachine_t::AttachFD as well.
 			SetConnectPending (false);
 		}
-		else
+		else {
+			printf("[ScheduleClose]: ConnectionDescriptor::Write\n");
 			ScheduleClose (false);
+		}
 			//bCloseNow = true;
 	}
 	else {
@@ -1149,8 +1156,10 @@ void ConnectionDescriptor::_DispatchCiphertext()
 				did_work = true;
 				pump = true;
 			}
-			else if (w < 0)
+			else if (w < 0) {
+				printf("[ScheduleClose] ConnectionDescriptor::_DispatchCiphertext\n");
 				ScheduleClose (false);
+			}
 		} while (pump);
 
 		// try to put plaintext. INCOMPLETE, doesn't belong here?
@@ -1192,13 +1201,17 @@ void ConnectionDescriptor::Heartbeat()
 	 */
 
 	if (bConnectPending) {
-		if ((gCurrentLoopTime - CreatedAt) >= PendingConnectTimeout)
+		if ((gCurrentLoopTime - CreatedAt) >= PendingConnectTimeout) {
+			printf("[ScheduleClose] ConnectionDescriptor::Heartbeat");
 			ScheduleClose (false);
+		}
 			//bCloseNow = true;
 	}
 	else {
-		if (InactivityTimeout && ((gCurrentLoopTime - LastIo) >= InactivityTimeout))
+		if (InactivityTimeout && ((gCurrentLoopTime - LastIo) >= InactivityTimeout)) {
+			printf("[ScheduleClose] ConnectionDescriptor::Heartbeat2");
 			ScheduleClose (false);
+		}
 			//bCloseNow = true;
 	}
 }
