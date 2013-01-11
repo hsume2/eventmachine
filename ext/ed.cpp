@@ -55,7 +55,7 @@ EventableDescriptor::EventableDescriptor (int sd, EventMachine_t *em):
 	bCloseAfterWriting (false),
 	MySocket (sd),
 	EventCallback (NULL),
-	bCallbackUnbind (true),
+	bCallbackUnbind (false),
 	UnbindReasonCode (0),
 	ProxyTarget(NULL),
 	ProxiedFrom(NULL),
