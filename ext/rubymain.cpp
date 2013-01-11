@@ -67,7 +67,6 @@ t_event_callback
 
 static void event_callback (struct em_event* e)
 {
-	printf("[hhsu]\n");
 	const unsigned long a1 = e->a1;
 	int a2 = e->a2;
 	const char *a3 = e->a3;
@@ -145,8 +144,10 @@ static void event_callback (struct em_event* e)
 		}
 		rb_funcall (q, Intern_proxy_target_unbound, 0);
 	}
-	else
+	else {
+		printf("[hhsu]\n");
 		rb_funcall (EmModule, Intern_event_callback, 3, ULONG2NUM(a1), INT2FIX(a2), a3 ? rb_str_new(a3,a4) : ULONG2NUM(a4));
+	}
 }
 
 /*******************
